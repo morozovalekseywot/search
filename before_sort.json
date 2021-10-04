@@ -1,0 +1,66 @@
+[
+{
+"Name": "Lesha",
+"Married": true,
+"Age": 13,
+"Weight": 70.8,
+"Height": 167,
+"Country": "Rus"
+},
+{
+"Name": "Masha",
+"Married": false,
+"Age": 28,
+"Weight": 73.8,
+"Height": 182,
+"Country": "Rus"
+},
+{
+"Name": "Gosha",
+"Married": false,
+"Age": 29,
+"Weight": 75.4,
+"Height": 186,
+"Country": "USA"
+},
+{
+"Name": "Alina",
+"Married": true,
+"Age": 15,
+"Weight": 68.2,
+"Height": 163,
+"Country": "USA"
+},
+{
+"Name": "Max",
+"Married": false,
+"Age": 16,
+"Weight": 73.6,
+"Height": 179,
+"Country": "Rus"
+},
+{
+"Name": "Nastya",
+"Married": true,
+"Age": 27,
+"Weight": 67.8,
+"Height": 162,
+"Country": "Rus"
+},
+{
+"Name": "Roslovtsev",
+"Married": false,
+"Age": 23,
+"Weight": 67.6,
+"Height": 164,
+"Country": "Abstract"
+},
+{
+"Name": "500FPS",
+"Married": false,
+"Age": 29,
+"Weight": 72.4,
+"Height": 176,
+"Country": "Abstract"
+},
+]
