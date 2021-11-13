@@ -41,7 +41,7 @@ inline int HashFunctionHorner(const string &s, int table_size, const int key)
 //    }
 //};
 
-template<typename Key, class T>
+template<typename Key, class Value>
 class HashTable
 {
 private:
@@ -50,11 +50,11 @@ private:
 
     struct Node
     {
-        T value;
+        Value value;
         Key key;
         bool state; // существует элемент или нет
 
-        explicit Node(const Key &key, const T &value) : key(key), value(value), state(true)
+        explicit Node(const Key &key, const Value &value) : key(key), value(value), state(true)
         {}
 
         ~Node() = default;
@@ -103,7 +103,7 @@ private:
     }
 
     // добавляет без замены удалённых
-    bool addWithoutCheck(const Key &key, const T &value)
+    bool addWithoutCheck(const Key &key, const Value &value)
     {
         if (size + 1 > int(rehash_size * buffer_size))
             resize();
@@ -145,7 +145,7 @@ public:
         arr.resize(buffer_size, nullptr);
     }
 
-    HashTable(vector<pair<Key, T>> &vec, const function<string(const Key &)> &getStr) : getString(getStr)
+    HashTable(vector<pair<Key, Value>> &vec, const function<string(const Key &)> &getStr) : getString(getStr)
     {
         int u = vec.size();
         u = 1 << (32 - __builtin_clz(u - 1)); // https://gamedev.ru/code/forum/?id=173235
@@ -166,7 +166,7 @@ public:
     }
 
     // вернёт false, если элемент уже существует
-    bool add(const Key &key, const T &value)
+    bool add(const Key &key, const Value &value)
     {
         if (size + 1 > int(rehash_size * buffer_size))
             resize();
@@ -243,7 +243,7 @@ public:
     }
 
     /// возвращает значение по ключу, если не находит вернёт false первым значением в паре
-    pair<bool, T> getValue(const Key &key) const
+    pair<bool, Value> getValue(const Key &key) const
     {
         int h1 = hash1(getString(key), buffer_size);
         int h2 = hash2(getString(key), buffer_size);
@@ -256,7 +256,7 @@ public:
             ++i;
         }
 
-        T ans;
+        Value ans;
         return make_pair(false, ans);
     }
 
@@ -266,18 +266,10 @@ public:
         return size;
     }
 
-
+    /// Получить размер буфера Хэш таблицы
     [[nodiscard]] int getSize() const
     {
         return buffer_size;
     }
-
-//    int hashFunction(T &value)
-//    {
-//        int h1 = hash1(getString(key), buffer_size);
-////        int h2 = hash2(getString(key), buffer_size);
-////        assert(arr[h1]!= nullptr);
-//        return h1;
-//    }
 };
 

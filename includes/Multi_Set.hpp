@@ -40,16 +40,18 @@ public:
     {
         cmp = comp;
         sort(all(vec), cmp);
+        if (!is_sorted(vec.begin(), vec.end(), comp))
+            throw runtime_error("Error");
     }
 
-    /// Ищет элемент и возращает его индекс если находит или 0 в противном случае
+    /// Ищет элемент и возращает его индекс если находит или -1 в противном случае
     int search(const T &elem) const
     {
         if (vec.size() == 0)
-            return false;
+            return -1;
         auto it = lower_bound(all(vec), elem, cmp);
 
-        if (*it == elem)
+        if (it != vec.end() && *it == elem)
             return distance(vec.begin(), vec.end());
         else
             return -1;
@@ -63,8 +65,7 @@ public:
             return;
         }
         auto it = lower_bound(all(vec), v, cmp);
-        if (*it != v)
-            vec.insert(it, v);
+        vec.insert(it, v);
     }
 
     void remove(const T &v)
@@ -76,7 +77,7 @@ public:
             vec.erase(it);
     }
 
-    bool include(const MultiSet<T> &b)
+    bool include(const MultiSet<T> &b) const
     {
         int i = 0;
         for (int j = 0; j < b.size(); j++)
@@ -199,7 +200,7 @@ public:
         return os;
     }
 
-    void Write(string filename)
+    void Write(string filename) const
     {
         string path = "../" + filename;
         ofstream file(path, ios_base::trunc);

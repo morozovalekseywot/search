@@ -6,3 +6,5 @@ graphics.zip
 /cmake-build-debug-cygwin/
 /cmake-build-release-cygwin/
 /local_files/
+local_files/cache_old.hpp
+local_files/hash_map.hpp

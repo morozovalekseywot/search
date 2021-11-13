@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <json11.hpp>
 #include <cmath>
+#include <thread>
 
 using namespace std;
 using namespace json11;
@@ -105,6 +106,27 @@ inline std::ostream &operator<<(std::ostream &os, const Man &man)
     return os;
 }
 
+Man getWithWait(string manName = " ", string manCountry = " ")
+{
+    if (manName == " ")
+        manName = Names[rand() % Names.size()];
+    if (manCountry == " ")
+        manCountry = Countries[rand() % Countries.size()];
+
+    Man man;
+    man.married = rand() % 2;
+    man.age = 10 + rand() % 50;
+    man.height = 160 + rand() % 50;
+    man.weight = ceil(0.35 * man.height) + rand() % 7;
+    man.name = manName;
+    man.country = manCountry;
+
+    std::chrono::microseconds timespan(100);
+    this_thread::sleep_for(timespan);
+
+    return man;
+}
+
 Man randomMan(string manName = " ", string manCountry = " ")
 {
     if (manName == " ")
@@ -137,3 +159,4 @@ struct PriorityMan
                                                                                        name(name), country(country)
     {}
 };
+

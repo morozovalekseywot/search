@@ -11,15 +11,6 @@
 #include <utility>
 #include "Hash_table.hpp"
 
-/*!
- This is an expected O(1) LRU cache which contains a map of (key -> value)
- elements. Elements can be put() by key into LRU cache, and later retrieved
- with get_without_touch() using the same key. Insertion and retrieval will remark the
- elements as most recently used, pushing all other back in priority. The LRU
- cache itself does not limit the number of items, because it has no eviction
- mechanism. Instead, the user program must check size() before or after an
- insert and may extract the least recently used element.
- */
 template<typename Key, typename Value>
 class LruCache
 {
@@ -120,7 +111,7 @@ public:
     }
 
     /// получает значение из Кэша, не трогая его
-    const Value &get_without_touch(const Key &key)
+    Value get_without_touch(const Key &key)
     {
         auto it = my_map.getValue(key);
         if (!it.first)
@@ -133,7 +124,7 @@ public:
     }
 
     /// получает и трогает значение в Кэше
-    const Value &get(const Key &key)
+    Value get(const Key &key)
     {
         auto it = my_map.getValue(key);
         if (!it.first)
@@ -147,7 +138,7 @@ public:
     }
 
     /// получает и трогает значение в Кэше, если существует
-    const pair<bool, Value> &get_if_exists(const Key &key)
+    pair<bool, Value> get_if_exists(const Key &key)
     {
         auto it = my_map.getValue(key);
         if (!it.first)
@@ -161,19 +152,19 @@ public:
         }
     }
 
-    /// test if key contains in LRU cache
-    bool contains(const Key &key) const
+    /// проверяет наличие ключа в Кэше
+    bool contains(const Key &key) const noexcept
     {
         return my_map.contains(key);
     }
 
-    /// return number of items in LRU cache
+    /// возвращает количество элементов в Кэше
     size_t size() const noexcept
     {
         return my_map.getNumberOfElements();
     }
 
-    /// return the least recently used key value pair
+    /// Вытесняет  last recently used элемент и вовращает удалённый элемент
     KeyValuePair pop()
     {
         assert(size());
@@ -196,9 +187,9 @@ public:
     }
 
 private:
-    /// list of entries in least-recently used order.
+    /// Лист с pair<Key,Value>, для очереди
     List lru_list;
-    /// map for accelerated access to keys
+
     HashTable<Key, ListIterator> my_map;
 };
 

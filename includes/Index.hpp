@@ -53,13 +53,7 @@ public:
         multiSet = MultiSet<Man>(comp);
     }
 
-    void miniFill()
-    {
-        vec = {randomMan("Lesha", "Rus"), randomMan("Masha", "Rus"), randomMan("Gosha", "USA"), randomMan("Alina", "USA"), randomMan("Max", "Rus"),
-               randomMan("Nastya", "Rus"), randomMan("Roslovtsev", "Abstract"), randomMan("500FPS", "Abstract")};
-        multiSet = MultiSet<Man>(vec, multiSet.cmp);
-    }
-
+    /// заполняет n рандомными элементами и автоматически индексирует их
     void fill(int n)
     {
         vec.resize(n);
@@ -137,13 +131,13 @@ public:
         multiSet = MultiSet<Man>(vec, multiSet.cmp);
     }
 
-    int search(Man &man)
+    int find(Man &man) const
     {
         return multiSet.search(man);
     }
 
     /// Запись в файл
-    void write(string filename)
+    void write(string filename) const
     {
         string path = "../" + filename;
 //        string json_out = Json(multiSet.vec).dump();
@@ -168,71 +162,3 @@ public:
 
     ~Indexing() = default;
 };
-
-/*
-class OldIndexing
-{
-public:
-    vector<Man> vec;
-
-    void miniFill()
-    {
-        vec = {randomMan("Lesha", "Rus"), randomMan("Masha", "Rus"), randomMan("Gosha", "USA"), randomMan("Alina", "USA"), randomMan("Max", "Rus"),
-               randomMan("Nastya", "Rus"), randomMan("Roslovtsev", "Abstract"), randomMan("500FPS", "Abstract")};
-    }
-
-    void Fill(int n)
-    {
-        vec.resize(n);
-        for (int i = 0; i < n; i++)
-            vec[i] = randomMan();
-    }
-
-    void Print()
-    {
-        cout << "\n{\n";
-        for (auto &man: vec)
-            cout << man;
-        cout << "}\n";
-    }
-
-    void Write(string filename)
-    {
-        string path = "../" + filename;
-        ofstream file(path, ios_base::trunc);
-        file << "[\n";
-        for (auto &man: vec)
-            file << man;
-        file << "]\n";
-        file.close();
-    }
-
-    void Index(PriorityMan &man)
-    {
-        // оптимизация вставки и удаления элементов, добавляем
-        // оптимально обновить индексы???
-        auto comp{
-                [&man](Man &a, Man &b) -> bool
-                {
-                    const int size = 6;
-                    int8_t p[size];
-                    p[man.married] = cmp(a.married, b.married);
-                    p[man.age] = cmp(a.age, b.age);
-                    p[man.weight] = cmp(a.weight, b.weight);
-                    p[man.height] = cmp(a.height, b.height);
-                    p[man.name] = cmp(a.name, b.name);
-                    p[man.country] = cmp(a.country, b.country);
-                    for (int i = 0; i < size; i++)
-                        if (p[i] != 0)
-                            return p[i] < 0;
-
-                    return false;
-                }
-        };
-
-        sort(vec.begin(), vec.end(), comp);
-    }
-
-    ~OldIndexing() = default;
-};
-*/
