@@ -73,7 +73,6 @@ void testLruCache()
             cache.touch(man.name);
     }
 
-//    cache.touch("Lesha");
     cout << cache;
 }
 
@@ -91,17 +90,17 @@ void benchLruCache()
     int range = n / 20;
     LruCache<string, Man> cache(range, getStr);
 
-    std::chrono::microseconds timespan(10);
-    auto begin = chrono::steady_clock::now();
-    for (int i = 0; i < n - range; i++)
-    {
-        this_thread::sleep_for(timespan);
-    }
-    auto end = chrono::steady_clock::now();
-    auto time = duration_cast<chrono::microseconds>(end - begin);
-    cout << "Time without cache: " << time.count() / 1e3 << "\n";
+    std::chrono::microseconds timespan(1);
+//    auto begin = chrono::steady_clock::now();
+//    for (int i = 0; i < n - range; i++)
+//    {
+//        this_thread::sleep_for(timespan);
+//    }
+//    auto end = chrono::steady_clock::now();
+//    auto time = duration_cast<chrono::microseconds>(end - begin);
+    cout << "Time without cache: " << timespan.count() * (n - range) << "\n";
 
-    begin = chrono::steady_clock::now();
+    auto begin = chrono::steady_clock::now();
     for (int i = 0; i < n - range; i++)
     {
         int idx = i + rand() % range;
@@ -112,14 +111,14 @@ void benchLruCache()
             this_thread::sleep_for(timespan);
         }
     }
-    end = chrono::steady_clock::now();
-    time = duration_cast<chrono::microseconds>(end - begin);
+    auto end = chrono::steady_clock::now();
+    auto time = duration_cast<chrono::microseconds>(end - begin);
     cout << "Time with cache: " << time.count() / 1e3 << "\n";
 }
 
 void benchFuncLruCache()
 {
-    int n = 100000;
+    int n = 10000;
     auto getStr = [](const string &str) -> string
     {
         return str;
@@ -162,7 +161,7 @@ void benchFuncLruCache()
 
 void testIndexing()
 {
-    int n = 100000;
+    int n = 10000;
     cout << "n: " << n << "\n";
 
     PriorityMan prior = PriorityMan(0, 1, 2, 3, 4, 5);
@@ -172,7 +171,7 @@ void testIndexing()
     auto end = chrono::steady_clock::now();
     auto time = duration_cast<chrono::microseconds>(end - begin);
     cout << "Indexing and fill time: " << time.count() / 1e3 << "\n";
-//    idx.write("first_sort.json");
+    idx.write("first_sort.json");
     assert(idx.vec.size() == n);
 
     begin = chrono::steady_clock::now();
@@ -180,7 +179,7 @@ void testIndexing()
     end = chrono::steady_clock::now();
     time = duration_cast<chrono::microseconds>(end - begin);
     cout << "Change order of indexing time: " << time.count() / 1e3 << "\n";
-//    idx.write("second_sort.json");
+    idx.write("second_sort.json");
 
 //    idx.readFromJsonFile("in.json");
 //    idx.write("out.json");
